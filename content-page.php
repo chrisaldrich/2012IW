@@ -13,10 +13,10 @@
 			<?php if ( ! is_page_template( 'page-templates/front-page.php' ) ) : ?>
 				<?php the_post_thumbnail(); ?>
 			<?php endif; ?>
-			<h1 class="entry-title"><?php the_title(); ?></h1>
+			<h1 class="p-name entry-title"><?php the_title(); ?></h1>
 		</header>
 
-		<div class="entry-content">
+		<div class="e-content entry-content">
 			<?php the_content(); ?>
 			<?php
 			wp_link_pages(
