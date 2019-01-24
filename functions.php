@@ -595,7 +595,7 @@ add_filter( 'body_class', 'twentytwelve_body_class' );
  * @param array $classes Classes for the body element.
  * @return array
  */
-function twentytwelveiw_post_classes( $classes ) {
+function twentytwelve_post_classes( $classes ) {
 	$classes = array_diff( $classes, array( 'hentry' ) );
 	if ( ! is_singular() ) {
 		if ( 'page' !== get_post_type() ) {
@@ -616,7 +616,7 @@ function twentytwelveiw_post_classes( $classes ) {
  * @param int|string|object $id_or_email A user ID, email address, or comment object
  * @return array $args
  */
-function twentytwelveiw_get_avatar_data($args, $id_or_email) {
+function twentytwelve_get_avatar_data($args, $id_or_email) {
 	if ( ! isset( $args['class'] ) ) {
 		$args['class'] = array( 'u-photo' );
 	} else {
@@ -624,17 +624,17 @@ function twentytwelveiw_get_avatar_data($args, $id_or_email) {
 	}
 	return $args;
 }
- add_filter( 'get_avatar_data', 'twentytwelveiw_get_avatar_data', 11, 2 );
+ add_filter( 'get_avatar_data', 'twentytwelve_get_avatar_data', 11, 2 );
 
  /**
  * Adds custom classes to the array of comment classes.
  */
-function twentytwelveiw_comment_class( $classes ) {
+function twentytwelve_comment_class( $classes ) {
 	$classes[] = 'u-comment';
 	$classes[] = 'h-cite';
 	return array_unique( $classes );
 }
- add_filter( 'comment_class', 'twentytwelveiw_comment_class', 11 );
+ add_filter( 'comment_class', 'twentytwelve_comment_class', 11 );
 
 /**
  * Adjust content width in certain contexts.
