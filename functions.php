@@ -583,7 +583,7 @@ function twentytwelve_body_class( $classes ) {
 				$classes[] = 'hentry';
 				$classes[] = 'h-entry';
 		}
-
+        }
 	return $classes;
 }
 add_filter( 'body_class', 'twentytwelve_body_class' );
@@ -608,7 +608,7 @@ function twentytwelveiw_post_classes( $classes ) {
 	return $classes;
 }
  add_filter( 'post_class', 'twentysixteeniw_post_classes' );
- 
+
  /**
  * Adds mf2 to avatar
  *
@@ -625,7 +625,7 @@ function twentytwelveiw_get_avatar_data($args, $id_or_email) {
 	return $args;
 }
  add_filter( 'get_avatar_data', 'twentytwelveiw_get_avatar_data', 11, 2 );
- 
+
  /**
  * Adds custom classes to the array of comment classes.
  */
