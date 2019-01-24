@@ -421,11 +421,11 @@ if ( ! function_exists( 'twentytwelve_comment' ) ) :
 				?>
 		<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
 		<article id="comment-<?php comment_ID(); ?>" class="comment">
-			<header class="comment-meta comment-author vcard">
+			<header class="h-card comment-meta comment-author vcard">
 				<?php
 					echo get_avatar( $comment, 44 );
 					printf(
-						'<cite><b class="fn">%1$s</b> %2$s</cite>',
+						'<cite><b class="p-name fn">%1$s</b> %2$s</cite>',
 						get_comment_author_link(),
 						// If current post author is also comment author, make it known visually.
 						( $comment->user_id === $post->post_author ) ? '<span>' . __( 'Post author', 'twentytwelve' ) . '</span>' : ''
@@ -489,7 +489,7 @@ if ( ! function_exists( 'twentytwelve_entry_meta' ) ) :
 		$tag_list = get_the_tag_list( '', __( ', ', 'twentytwelve' ) );
 
 		$date = sprintf(
-			'<a href="%1$s" title="%2$s" rel="bookmark"><time class="entry-date" datetime="%3$s">%4$s</time></a>',
+			'<a href="%1$s" title="%2$s" rel="bookmark"><time class="dt-published entry-date" datetime="%3$s">%4$s</time></a>',
 			esc_url( get_permalink() ),
 			esc_attr( get_the_time() ),
 			esc_attr( get_the_date( 'c' ) ),
@@ -497,7 +497,7 @@ if ( ! function_exists( 'twentytwelve_entry_meta' ) ) :
 		);
 
 		$author = sprintf(
-			'<span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>',
+			'<span class="h-card author vcard"><a class="p-name u-url url fn n" href="%1$s" title="%2$s" rel="author">%3$s</a></span>',
 			esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
 			esc_attr( sprintf( __( 'View all posts by %s', 'twentytwelve' ), get_the_author() ) ),
 			get_the_author()
@@ -574,9 +574,67 @@ function twentytwelve_body_class( $classes ) {
 		$classes[] = 'single-author';
 	}
 
+	// Adds a class of hfeed to non-singular pages.
+	if ( ! is_singular() ) {
+		$classes[] = 'hfeed';
+		$classes[] = 'h-feed';
+	} else {
+		if ( 'page' !== get_post_type() ) {
+				$classes[] = 'hentry';
+				$classes[] = 'h-entry';
+		}
+
 	return $classes;
 }
 add_filter( 'body_class', 'twentytwelve_body_class' );
+
+
+/**
+ * Adds custom classes to the array of post classes.
+ *
+ * @param array $classes Classes for the body element.
+ * @return array
+ */
+function twentytwelveiw_post_classes( $classes ) {
+	$classes = array_diff( $classes, array( 'hentry' ) );
+	if ( ! is_singular() ) {
+		if ( 'page' !== get_post_type() ) {
+			// Adds a class for microformats v2
+			$classes[] = 'h-entry';
+			// add hentry to the same tag as h-entry
+			$classes[] = 'hentry';
+		}
+	}
+	return $classes;
+}
+ add_filter( 'post_class', 'twentysixteeniw_post_classes' );
+ 
+ /**
+ * Adds mf2 to avatar
+ *
+ * @param array             $args Arguments passed to get_avatar_data(), after processing.
+ * @param int|string|object $id_or_email A user ID, email address, or comment object
+ * @return array $args
+ */
+function twentytwelveiw_get_avatar_data($args, $id_or_email) {
+	if ( ! isset( $args['class'] ) ) {
+		$args['class'] = array( 'u-photo' );
+	} else {
+		$args['class'][] = 'u-photo';
+	}
+	return $args;
+}
+ add_filter( 'get_avatar_data', 'twentytwelveiw_get_avatar_data', 11, 2 );
+ 
+ /**
+ * Adds custom classes to the array of comment classes.
+ */
+function twentytwelveiw_comment_class( $classes ) {
+	$classes[] = 'u-comment';
+	$classes[] = 'h-cite';
+	return array_unique( $classes );
+}
+ add_filter( 'comment_class', 'twentytwelveiw_comment_class', 11 );
 
 /**
  * Adjust content width in certain contexts.
