@@ -607,7 +607,7 @@ function twentytwelve_post_classes( $classes ) {
 	}
 	return $classes;
 }
- add_filter( 'post_class', 'twentysixteeniw_post_classes' );
+ add_filter( 'post_class', 'twentytwelve_post_classes' );
 
  /**
  * Adds mf2 to avatar
